@@ -1,9 +1,10 @@
 import { createRoot } from 'react-dom/client'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useMemo} from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { OrbitControls, Stars } from "@react-three/drei";
 import { Physics, usePlane, useBox, useSphere } from "@react-three/cannon";
 import "./index.css";
+import * as THREE from 'three';
 
 
 function Sphere() {
@@ -97,6 +98,22 @@ function Plane() {
   );
 }
 
+const doggos =
+  "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+
+const Texture = ({ texture }) => {
+  return (
+    <mesh>
+      <planeBufferGeometry attach="geometry" args={[5, 4]} />
+      <meshBasicMaterial attach="material" map={texture} />
+    </mesh>
+  );
+};
+const Image = ({ url }) => {
+  const texture = useMemo(() => new THREE.TextureLoader().load(url), [url]);
+  return <Texture texture={texture} />;
+};
+
 createRoot(document.getElementById('root')).render(
   <Canvas>
       <OrbitControls />
@@ -108,5 +125,6 @@ createRoot(document.getElementById('root')).render(
         {brickWall.map((b) => (<Brick x={b[1]} y={b[2]} key={b[0]} />))}
         <Plane />
       </Physics>
+      <Image url={doggos} />
     </Canvas>,
 )
