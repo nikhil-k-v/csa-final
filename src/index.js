@@ -6,7 +6,7 @@ import { Physics, usePlane, useBox, useSphere } from "@react-three/cannon";
 import "./index.css";
 
 
-function Box() {
+function Sphere() {
   const [ref, api] = useSphere(() => ({ mass: 1, position: [0, 2, 0] }));
 
   function handleKeyPress(e){
@@ -38,6 +38,8 @@ async function init() {
   })
 }
 
+
+
 init();
 
   return (
@@ -52,6 +54,25 @@ init();
     </mesh>
   );
 }
+
+function Brick({x, y}) {
+  const [ref, api] = useBox(() => ({ mass: 1, position: [x, y, 2] }));
+  return (
+    <mesh ref={ref} position={[0, 10, 0]}>
+      <boxBufferGeometry attach="geometry" />
+      <meshLambertMaterial attach="material" color="white" />
+    </mesh>
+  );
+}
+
+const brickWall = [
+  ['1',0,2],
+  ['2',0.55,3],
+  ['3',1.1,2],
+  ['4',2.2,2],
+  ['5',1.65,3],
+
+]
 
 function Plane() {
   const [ref] = usePlane(() => ({
@@ -72,7 +93,8 @@ createRoot(document.getElementById('root')).render(
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 15, 10]} angle={0.3} />
       <Physics>
-        <Box /> 
+        <Sphere /> 
+        {brickWall.map((b) => (<Brick x={b[1]} y={b[2]} key={b[0]} />))}
         <Plane />
       </Physics>
     </Canvas>,
