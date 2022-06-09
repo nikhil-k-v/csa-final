@@ -7,7 +7,7 @@ import "./index.css";
 
 
 function Sphere() {
-  const [ref, api] = useSphere(() => ({ mass: 1, position: [0, 2, 0] }));
+  const [ref, api] = useSphere(() => ({ mass: 3, position: [0, 2, 0] }));
 
   function handleKeyPress(e){
     console.log("bye")
@@ -15,26 +15,37 @@ function Sphere() {
 
 
 async function init() {
+  let forwardKeyVel = 0;
+  let sideKeyVel = 0;
   window.addEventListener( 'keydown', function(e){
     if(e.key === "w"){
-      console.log("man")
-      api.velocity.set(0,0,10);
+      forwardKeyVel = 10;
     }
     if(e.key === "s"){
-      api.velocity.set(0,0,-10);
+      forwardKeyVel = -10;
     }
     if(e.key === "d"){
-      api.velocity.set(-10,0,0);
+      sideKeyVel = -10;
     }
     if(e.key === "a"){
-      api.velocity.set(10,0,0);
+      sideKeyVel = 10;
     }
-    if(e.key === " "){
-      api.velocity.set(0,5,0);
-    }
+    api.velocity.set(sideKeyVel,0,forwardKeyVel);
   })
   window.addEventListener( 'keyup', function(e){
-    api.velocity.set(0,0,0);
+    if(e.key === "w"){
+      forwardKeyVel = 0;
+    }
+    if(e.key === "s"){
+      forwardKeyVel = 0;
+    }
+    if(e.key === "d"){
+      sideKeyVel = 0;
+    }
+    if(e.key === "a"){
+      sideKeyVel = 0;
+    }
+    api.velocity.set(sideKeyVel,0,forwardKeyVel);
   })
 }
 
@@ -49,18 +60,18 @@ init();
       ref={ref}
       position={[0, 5, 0]}
     >
-      <sphereBufferGeometry attach="geometry" />
+      <boxBufferGeometry attach="geometry" />
       <meshLambertMaterial attach="material" color="hotpink" />
     </mesh>
   );
 }
 
 function Brick({x, y}) {
-  const [ref, api] = useBox(() => ({ mass: 1, position: [x, y, 2] }));
+  const [ref, api] = useBox(() => ({ mass: 1, position: [x, y, 5] }));
   return (
     <mesh ref={ref} position={[0, 10, 0]}>
       <boxBufferGeometry attach="geometry" />
-      <meshLambertMaterial attach="material" color="white" />
+      <meshLambertMaterial attach="material" color="orange" />
     </mesh>
   );
 }
@@ -80,7 +91,7 @@ function Plane() {
   }));
   return (
     <mesh ref={ref} rotation={[-Math.PI / 2, 0, 0]}>
-      <planeBufferGeometry attach="geometry" args={[100, 100]} />
+      <planeBufferGeometry attach="geometry" args={[1000, 1000]} />
       <meshLambertMaterial attach="material" color="lightblue" />
     </mesh>
   );
