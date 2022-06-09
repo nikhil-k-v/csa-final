@@ -103,8 +103,8 @@ const doggos =
 
 const Texture = ({ texture }) => {
   return (
-    <mesh>
-      <planeBufferGeometry attach="geometry" args={[5, 4]} />
+    <mesh position={[0, 2, -3]}>
+      <boxBufferGeometry attach="geometry" args={[1, 1,1]} />
       <meshBasicMaterial attach="material" map={texture} />
     </mesh>
   );
