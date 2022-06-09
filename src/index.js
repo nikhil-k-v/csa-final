@@ -100,11 +100,16 @@ function Plane() {
 
 const doggos =
   "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+const boxGeo = "https://media.discordapp.net/attachments/447895797108047903/984274208890699806/unknown.png?width=1228&height=676";
+const hue = "https://media.discordapp.net/attachments/447895797108047903/984274335227346944/unknown.png?width=1221&height=676";
+const scene = "https://media.discordapp.net/attachments/447895797108047903/984274766447902750/unknown.png?width=1310&height=676";
+const intro = "https://media.discordapp.net/attachments/447895797108047903/984274662404010004/unknown.png?width=1221&height=676";
+const helloWorld = "https://media.discordapp.net/attachments/447895797108047903/984274516257689640/unknown.png?width=1224&height=676";
 
 const Texture = ({ texture }) => {
   return (
-    <mesh position={[0, 2, -3]}>
-      <boxBufferGeometry attach="geometry" args={[1, 1,1]} />
+    <mesh position={[0, 10, 0]}>
+      <boxBufferGeometry attach="geometry" args={[25,25,1]} />
       <meshBasicMaterial attach="material" map={texture} />
     </mesh>
   );
@@ -124,7 +129,12 @@ createRoot(document.getElementById('root')).render(
         <Sphere /> 
         {brickWall.map((b) => (<Brick x={b[1]} y={b[2]} key={b[0]} />))}
         <Plane />
-      </Physics>
       <Image url={doggos} />
+      <Image url={boxGeo} />
+      <Image url={hue} />
+      <Image url={scene} />
+      <Image url={intro} />
+      <Image url={helloWorld} />
+      </Physics>
     </Canvas>,
 )
