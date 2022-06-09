@@ -107,9 +107,10 @@ const intro = "https://media.discordapp.net/attachments/447895797108047903/98427
 const helloWorld = "https://media.discordapp.net/attachments/447895797108047903/984274516257689640/unknown.png?width=1224&height=676";
 
 const Texture = ({ texture }) => {
+  const [ref, api] = useBox(() => ({ mass: 3, position: [0, 2, 0] }));
   return (
     <mesh position={[0, 10, 0]}>
-      <boxBufferGeometry attach="geometry" args={[25,25,1]} />
+      <boxBufferGeometry attach="geometry" args={[1,25,1]} />
       <meshBasicMaterial attach="material" map={texture} />
     </mesh>
   );
@@ -119,9 +120,12 @@ const Image = ({ url }) => {
   return <Texture texture={texture} />;
 };
 
+
+
+
 createRoot(document.getElementById('root')).render(
   <Canvas>
-      <OrbitControls />
+      < />
       <Stars />
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 15, 10]} angle={0.3} />
@@ -129,12 +133,12 @@ createRoot(document.getElementById('root')).render(
         <Sphere /> 
         {brickWall.map((b) => (<Brick x={b[1]} y={b[2]} key={b[0]} />))}
         <Plane />
-      <Image url={doggos} />
-      <Image url={boxGeo} />
-      <Image url={hue} />
-      <Image url={scene} />
-      <Image url={intro} />
-      <Image url={helloWorld} />
+        <Image url={doggos} />
+        <Image url={boxGeo} />
+        <Image url={hue} />
+        <Image url={scene} />
+        <Image url={intro} />
+        <Image url={helloWorld} />
       </Physics>
     </Canvas>,
 )
