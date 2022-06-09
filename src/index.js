@@ -1,14 +1,37 @@
 import { createRoot } from 'react-dom/client'
-import React, { useRef, useState, useMemo} from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Stars } from "@react-three/drei";
-import { Physics, usePlane, useBox, useSphere } from "@react-three/cannon";
+import React, { useRef, useState, useMemo, useEffect} from 'react'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
+import { OrbitControls, Stars, PerspectiveCamera } from "@react-three/drei";
+import { Physics, usePlane, useBox, useSphere, useHeightfield } from "@react-three/cannon";
 import "./index.css";
 import * as THREE from 'three';
+import { Vector3 } from 'three';
+
+
+
 
 
 function Sphere() {
-  const [ref, api] = useSphere(() => ({ mass: 3, position: [0, 2, 0] }));
+  const {camera, set} = useThree();
+  
+  const [ref, api] = useSphere(() => ({ mass: 10, position: [0, 3, 0] }));
+  // const cameraRef = useRef(null);
+
+  // const v = new Vector3();
+
+  // useFrame(() => {
+  //   if (!cameraRef.current || !ref.current) return
+  //   ref.current.getWorldPosition(v)
+  //   cameraRef.current.lookAt(v)
+  // })
+  
+  // useEffect(() => {
+  //   const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+  //   cam.position.set(0,5,20);
+  //   set({camera: cam });
+  // }, [])
+
+  const cam = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
 
   function handleKeyPress(e){
     console.log("bye")
@@ -52,7 +75,7 @@ async function init() {
 
 
 
-init();
+  init();
 
   return (
     <mesh
@@ -61,11 +84,14 @@ init();
       ref={ref}
       position={[0, 5, 0]}
     >
-      <boxBufferGeometry attach="geometry" />
+      {/* <PerspectiveCamera ref={cameraRef<PerspectiveCamera makeDefault position={[-40, 10, 20]} />} makeDefault position={[-40, 10, 20]} /> */}
+      <sphereBufferGeometry attach="geometry" />
       <meshLambertMaterial attach="material" color="hotpink" />
     </mesh>
+    
   );
 }
+
 
 function Brick({x, y}) {
   const [ref, api] = useBox(() => ({ mass: 1, position: [x, y, 5] }));
@@ -107,10 +133,10 @@ const intro = "https://media.discordapp.net/attachments/447895797108047903/98427
 const helloWorld = "https://media.discordapp.net/attachments/447895797108047903/984274516257689640/unknown.png?width=1224&height=676";
 
 const Texture = ({ texture }) => {
-  const [ref, api] = useBox(() => ({ mass: 3, position: [0, 2, 0] }));
+  const [ref, api] = useBox(() => ({ mass: 3, position: [0, 3, -10] }));
   return (
-    <mesh position={[0, 10, 0]}>
-      <boxBufferGeometry attach="geometry" args={[1,25,1]} />
+    <mesh position={[0,3,-10]}>
+      <boxBufferGeometry attach="geometry" args={[10,10,1]} />
       <meshBasicMaterial attach="material" map={texture} />
     </mesh>
   );
@@ -125,7 +151,7 @@ const Image = ({ url }) => {
 
 createRoot(document.getElementById('root')).render(
   <Canvas>
-      < />
+      <OrbitControls />
       <Stars />
       <ambientLight intensity={0.5} />
       <spotLight position={[10, 15, 10]} angle={0.3} />
